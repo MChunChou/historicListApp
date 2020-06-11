@@ -22,18 +22,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import papa from 'papaparse';
 
-/** 
- * @param {String} csv 
- * @returns Object
- */
-function toJson(csv){
-  let json = [];
-  let csvArr = csv.split(/[\n\r]+/g);
-  let header = []
-
-  return json
-}
-
 const App: () => React$Node = () => {
    
   let [infos, setInfos] = useState([]);
@@ -41,21 +29,20 @@ const App: () => React$Node = () => {
   useEffect(()=>{
     let url = 'https://data.tainan.gov.tw/dataset/94f9c34f-e658-4c84-ab9c-1889c46c69ca/resource/17d35835-8a02-4ea2-aa39-539452bc956d/download/historicalmonument2016.csv';
     let data = fetch(url)
-                .then( (response) => response.text())
+                .then( (response) => response.text() )
                 .then((text) => {      
-                  let json = papa.parse(text)                                               
-                  setInfos(json.data)                  
+                  let json = papa.parse(text);
+                  setInfos(json.data);             
                 })
                 .catch((error)=>{
-                  console.error(error)
+                  console.error(error);
                 });
-  }, [])
+  }, []);
 
   function card(info, index){    
 
     if(info.length > 1) {
       let [num, type, name, rank, pos, time] = info;    
-
     
       return <View key={index} elevation={5} style={styles.card}>
         <Text>{`${num} ${type}`}</Text>
@@ -67,12 +54,12 @@ const App: () => React$Node = () => {
   }
 
   function cards(){
-    let content = []
+    let content = [];
 
     if(infos.length > 0) {
       for(let i in infos){
         if(i != 0){          
-          content.push(card(infos[i], i))
+          content.push(card(infos[i], i));
         }                
       }
     }       
@@ -154,12 +141,6 @@ const styles = StyleSheet.create({
       height: 2,
       width: 2
     }
-  },  
-  infoDetail: {
-
-  },
-  notShow: {
-    display: "none"
   }  
 });
 
